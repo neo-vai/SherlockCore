@@ -1,0 +1,9 @@
+name: SherlockCore
+version: '1.0'
+main: me.pashaVoid.sherlockCore.SherlockCore
+api-version: '1.21'
+prefix: SherlockCore
+load: STARTUP
+authors: [ PashaVoid ]
+description: The plugin adds items for checking CoreProtect logs with different levels of nickname encryption, and a lot of auxiliary content.
+website: VanillaXP.com
