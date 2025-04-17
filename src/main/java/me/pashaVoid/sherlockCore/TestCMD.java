@@ -9,9 +9,9 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
-import static me.pashaVoid.sherlockCore.utils.coreProtectUtils.getBlockHistory;
+import static me.pashaVoid.sherlockCore.utils.CoreProtectUtils.getBlockHistory;
 
-public class testCMD implements CommandExecutor {
+public class TestCMD implements CommandExecutor {
 
 
     @Override

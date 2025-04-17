@@ -1,6 +1,4 @@
 package me.pashaVoid.sherlockCore.utils;
-
-import me.pashaVoid.sherlockCore.SherlockCore;
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
 import org.bukkit.Bukkit;
@@ -12,14 +10,14 @@ import java.util.List;
 
 import static me.pashaVoid.sherlockCore.SherlockCore.coreProtect;
 
-public class coreProtectUtils {
+public class CoreProtectUtils {
 
     public static CoreProtectAPI getCoreProtectAPI() {
         Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CoreProtect");
         return (plugin instanceof CoreProtect) ? ((CoreProtect) plugin).getAPI() : null;
     }
 
-    public static List<List<String>> getBlockHistory(Block block, int limit) {
+    public static List<List<String>> getBlockHistory(Block block, int limit) { // [[player, time, action][...][...]]
         List<List<String>> history = new ArrayList<>();
         if (coreProtect == null || !coreProtect.isEnabled()) return history;
 

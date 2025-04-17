@@ -12,3 +12,5 @@ commands:
   checkhistory:
     description: "Проверяет историю изменений блока"
     usage: /checkhistory [лимит]
+  givemagnifier:
+    description: "Создает лупу"

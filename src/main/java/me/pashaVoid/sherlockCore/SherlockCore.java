@@ -3,7 +3,7 @@ package me.pashaVoid.sherlockCore;
 import net.coreprotect.CoreProtectAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import static me.pashaVoid.sherlockCore.utils.coreProtectUtils.getCoreProtectAPI;
+import static me.pashaVoid.sherlockCore.utils.CoreProtectUtils.getCoreProtectAPI;
 
 public final class SherlockCore extends JavaPlugin {
 
@@ -24,7 +24,10 @@ public final class SherlockCore extends JavaPlugin {
         coreProtect = cp;
         getLogger().info("CoreProtect API подключен успешно! Версия: " + cp.APIVersion());
 
-        getCommand("checkhistory").setExecutor(new testCMD());
+        getCommand("checkhistory").setExecutor(new TestCMD());
+        getCommand("givemagnifier").setExecutor(new GiveMagnifierCMD());
+        getServer().getPluginManager().registerEvents(new ItemListener(), this);
+
     }
 
     @Override
