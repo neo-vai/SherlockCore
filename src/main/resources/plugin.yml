@@ -7,3 +7,8 @@ load: STARTUP
 authors: [ PashaVoid ]
 description: The plugin adds items for checking CoreProtect logs with different levels of nickname encryption, and a lot of auxiliary content.
 website: VanillaXP.com
+
+commands:
+  checkhistory:
+    description: "Проверяет историю изменений блока"
+    usage: /checkhistory [лимит]
