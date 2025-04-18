@@ -1,5 +1,6 @@
-package me.pashaVoid.sherlockCore;
+package me.pashaVoid.sherlockCore.magnifier;
 
+import me.pashaVoid.sherlockCore.SherlockCore;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;

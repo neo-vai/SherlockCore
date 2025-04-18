@@ -1,6 +1,7 @@
-package me.pashaVoid.sherlockCore;
+package me.pashaVoid.sherlockCore.magnifier;
 
 
+import me.pashaVoid.sherlockCore.SherlockCore;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -13,10 +14,11 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-
 import java.util.List;
 
-import static me.pashaVoid.sherlockCore.utils.CoreProtectUtils.getBlockHistory;
+import static me.pashaVoid.sherlockCore.utils.CoreProtectUtils.*;
+import static me.pashaVoid.sherlockCore.utils.SecrecyUtil.calculatePercentagesList;
+import static me.pashaVoid.sherlockCore.utils.SecrecyUtil.encryptNickname;
 
 public class ItemListener implements Listener {
 
@@ -63,9 +65,10 @@ public class ItemListener implements Listener {
             if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
                 history = getBlockHistory(block, nicks);
             } else {
-                history = getBlockHistory(block, uses);
                 player.sendMessage("ПКМ еще не готов");
+                history = getBlockHistory(block, nicks);
             }
+            List<Integer> chanceList = calculatePercentagesList(history.size());
 
             if (history.isEmpty()) {
                 player.sendMessage("§aУ этого блока нет истории изменений.");
@@ -75,11 +78,18 @@ public class ItemListener implements Listener {
             player.sendMessage("§6Вот что удалось разглядеть:");
             int cnt = 0;
             int time_cnt = show_time;
-            for (List<String> entry : history) {
+            for (int i = 0; i < history.size(); i++) {
+                List<String> entry = history.get(i);
+                int chance = chanceList.get(i);
+                String nick = encryptNickname(entry.get(0), chance, block.getX(), block.getY(), block.getZ());
                 cnt += 1;
-                String str = "§7" + cnt + "§f " + entry.get(0) + " §7→ " + entry.get(2);
+                String str = "§7" + cnt + "§f " + nick + " " + entry.get(2);
                 if (time_cnt > 0) {
-                    str += " §8(" + entry.get(1) + ")";
+                    List<Long> date = convertStringDataToLong(entry.get(1));
+                    String strDate = "";
+                    if (date.size() > 1) strDate += date.getLast() + "д.";
+                    strDate += date.getFirst() + "ч.";
+                    str += " §8(" + strDate + ")";
                     time_cnt -= 1;
                 }
                 player.sendMessage(str);

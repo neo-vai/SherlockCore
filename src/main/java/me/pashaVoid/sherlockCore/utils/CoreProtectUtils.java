@@ -2,7 +2,9 @@ package me.pashaVoid.sherlockCore.utils;
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.plugin.Plugin;
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ public class CoreProtectUtils {
         return (plugin instanceof CoreProtect) ? ((CoreProtect) plugin).getAPI() : null;
     }
 
-    public static List<List<String>> getBlockHistory(Block block, int limit) { // [[player, time, action][...][...]]
+    public static List<List<String>> getBlockHistory(Block block, int limit) { // [[player, hours:day, action][...][...]]
         List<List<String>> history = new ArrayList<>();
         if (coreProtect == null || !coreProtect.isEnabled()) return history;
 
@@ -29,7 +31,6 @@ public class CoreProtectUtils {
             for (String[] entry : lastEntries) {
                 CoreProtectAPI.ParseResult result = coreProtect.parseResult(entry);
                 List<String> entryData = new ArrayList<>(4); // [ник, часы, действие, блок]
-
                 // Ник игрока
                 entryData.add(result.getPlayer());
 
@@ -44,10 +45,10 @@ public class CoreProtectUtils {
 
                 // Действие и тип блока
                 String action = switch (result.getActionId()) {
-                    case 0 -> "Сломал";
-                    case 1 -> "Поставил";
-                    case 2 -> "Взаимодействовал";
-                    default -> "Неизвестно";
+                    case 0 -> "§c-";
+                    case 1 -> "§a+";
+                    case 2 -> "§d*";
+                    default -> "§8";
                 };
 
                 Material blockType = result.getType(); // Получаем материал блока
@@ -69,12 +70,12 @@ public class CoreProtectUtils {
 
         long hours = diffSeconds / 3600;
         if (hours < 24) {
-            return hours + " ч. назад";
+            return String.valueOf(hours);
         }
 
         long days = hours / 24;
         hours = hours % 24;
-        return days + " д. " + hours + " ч. назад";
+        return String.valueOf(hours) + ":" + String.valueOf(days);
     }
 
     private static String formatBlockName(Material material) {
@@ -84,5 +85,16 @@ public class CoreProtectUtils {
                 .toLowerCase()
                 .replace("_", " ");
         return name.substring(0, 1).toUpperCase() + name.substring(1);
+    }
+
+    public static List<Long> convertStringDataToLong(String input) {
+        List<Long> result = new ArrayList<>();
+        String[] parts = input.split(":"); // Разделяем строку по ":"
+
+        for (String part : parts) {
+            result.add(Long.parseLong(part)); // Парсим каждую часть в long
+        }
+
+        return result;
     }
 }

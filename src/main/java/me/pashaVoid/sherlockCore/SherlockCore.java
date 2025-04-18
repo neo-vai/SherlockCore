@@ -1,5 +1,8 @@
 package me.pashaVoid.sherlockCore;
 
+import me.pashaVoid.sherlockCore.magnifier.GiveMagnifierCMD;
+import me.pashaVoid.sherlockCore.magnifier.ItemListener;
+import me.pashaVoid.sherlockCore.magnifier.TestCMD;
 import net.coreprotect.CoreProtectAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,6 +19,7 @@ public final class SherlockCore extends JavaPlugin {
         instance = this;
 
         CoreProtectAPI cp = getCoreProtectAPI();
+
         if (cp == null) {
             getLogger().severe("CoreProtect не найден! Плагин отключен.");
             Bukkit.getPluginManager().disablePlugin(this);
