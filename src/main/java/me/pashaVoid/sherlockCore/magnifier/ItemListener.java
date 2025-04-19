@@ -1,11 +1,13 @@
 package me.pashaVoid.sherlockCore.magnifier;
 
-
 import me.pashaVoid.sherlockCore.SherlockCore;
+import net.kyori.adventure.text.event.DataComponentValue;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,6 +16,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import static me.pashaVoid.sherlockCore.utils.CoreProtectUtils.*;
@@ -45,7 +49,6 @@ public class ItemListener implements Listener {
         }
         PersistentDataContainer container = e.getItem().getItemMeta().getPersistentDataContainer();
         int nicks = container.get(NamespacedKey.minecraft("magnifier_nicks"), PersistentDataType.INTEGER);
-        int uses = container.get(NamespacedKey.minecraft("magnifier_uses"), PersistentDataType.INTEGER);
         int break_chances = container.get(NamespacedKey.minecraft("magnifier_break_chances"), PersistentDataType.INTEGER);
         int show_time = container.get(NamespacedKey.minecraft("magnifier_show_time"), PersistentDataType.INTEGER);
         int add_chances = container.get(NamespacedKey.minecraft("magnifier_add_chances"), PersistentDataType.INTEGER);
@@ -61,13 +64,10 @@ public class ItemListener implements Listener {
         Block block = targetBlock; // выбираем финальный блок
 
         Bukkit.getScheduler().runTaskAsynchronously(SherlockCore.getInstance(), () -> {
-            List<List<String>> history;
-            if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
-                history = getBlockHistory(block, nicks);
-            } else {
-                player.sendMessage("ПКМ еще не готов");
-                history = getBlockHistory(block, nicks);
-            }
+            List<List<String>> history = new ArrayList<>();
+            if (e.getAction() == Action.RIGHT_CLICK_BLOCK) history = getContainerHistory(block, nicks);
+            else history = getBlockHistory(block, nicks);
+
             List<Integer> chanceList = calculatePercentagesList(history.size());
 
             if (history.isEmpty()) {
@@ -96,5 +96,4 @@ public class ItemListener implements Listener {
             }
         });
     }
-
 }

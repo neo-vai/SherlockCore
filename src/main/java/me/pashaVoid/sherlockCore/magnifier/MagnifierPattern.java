@@ -4,7 +4,6 @@ public enum MagnifierPattern {
     // Обычный
     COMMON(
             10,   // magnifier_nicks
-            10,   // magnifier_uses
             90,    // magnifier_break_chances (%)
             1,     // magnifier_show_time (0/1)
             0,     // magnifier_add_chances (%)
@@ -14,7 +13,6 @@ public enum MagnifierPattern {
     // Профессиональный
     PROFESSIONAL(
             15,    // показывает 15 ников
-            20,    // 20 использований
             75,    // 75% шанс износа
             5,
             15,    // +15% к шансам
@@ -25,7 +23,6 @@ public enum MagnifierPattern {
     SPECIAL(
             30,
             30,
-            30,
             15,
             15,
             1
@@ -34,7 +31,6 @@ public enum MagnifierPattern {
     // Уникальный
     UNIQUE(
             50,
-            50,
             20,
             30,
             20,
@@ -42,7 +38,6 @@ public enum MagnifierPattern {
     );
 
     private final int nicks;
-    private final int uses;
     private final int breakChance;
     private final int showTime;
     private final int addChance;
@@ -63,10 +58,9 @@ public enum MagnifierPattern {
         return null;
     }
 
-    MagnifierPattern(int nicks, int uses, int breakChance,
+    MagnifierPattern(int nicks, int breakChance,
                      int showTime, int addChance, int showThief) {
         this.nicks = nicks;
-        this.uses = uses;
         this.breakChance = breakChance;
         this.showTime = showTime;
         this.addChance = addChance;
@@ -77,9 +71,6 @@ public enum MagnifierPattern {
         return nicks;
     }
 
-    public int getMagnifierUses() {
-        return uses;
-    }
 
     public int getMagnifierBreakChance() {
         return breakChance;

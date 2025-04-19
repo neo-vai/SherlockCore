@@ -22,7 +22,6 @@ public class GiveMagnifierCMD implements TabExecutor {
 
     // magnifier: True
     // magnifier_nicks: int
-    // magnifier_uses: int
     // magnifier_break_chances: int
     // magnifier_show_time: int
     // magnifier_add_chances: int
@@ -55,7 +54,6 @@ public class GiveMagnifierCMD implements TabExecutor {
             return true;
         }
         int nicks;
-        int uses;
         int break_chances;
         int show_time;
         int add_chances;
@@ -70,7 +68,6 @@ public class GiveMagnifierCMD implements TabExecutor {
                 return true;
             }
             nicks = magnifierPattern.getMagnifierNicks();
-            uses = magnifierPattern.getMagnifierUses();
             break_chances = magnifierPattern.getMagnifierBreakChance();
             show_time = magnifierPattern.getMagnifierShowTime();
             add_chances = magnifierPattern.getMagnifierAddChance();
@@ -80,7 +77,6 @@ public class GiveMagnifierCMD implements TabExecutor {
 
         } else {
             nicks = Integer.parseInt(args[1]);
-            uses = Integer.parseInt(args[2]);
             break_chances = Integer.parseInt(args[3]);
             show_time = Integer.parseInt(args[4]);
             add_chances = Integer.parseInt(args[5]);
@@ -89,12 +85,11 @@ public class GiveMagnifierCMD implements TabExecutor {
             name = "Лупа Шерлока";
         }
 
-        ItemStack item = new ItemBuilder(Material.SHEARS, 1)
+        ItemStack item = new ItemBuilder(Material.BRUSH, 1)
                 .setName(name)
                 .setLore(Arrays.asList("ЛКМ - увидеть историю блока", "SHIFT + ЛКМ - увидеть историю блока выше", "ЛКМ - увидеть историю содержимого блока", "ЛКМ - увидеть историю содержимого блока выше"))
                 .addPersistent("magnifier", PersistentDataType.BOOLEAN, true)
                 .addPersistent("magnifier_nicks", PersistentDataType.INTEGER, nicks)
-                .addPersistent("magnifier_uses", PersistentDataType.INTEGER, uses)
                 .addPersistent("magnifier_break_chances", PersistentDataType.INTEGER, break_chances)
                 .addPersistent("magnifier_show_time", PersistentDataType.INTEGER, show_time)
                 .addPersistent("magnifier_add_chances", PersistentDataType.INTEGER, add_chances)
