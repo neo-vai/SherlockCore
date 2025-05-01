@@ -9,6 +9,7 @@ import org.bukkit.plugin.Plugin;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -58,7 +59,6 @@ public class CoreProtectLookups {
     }
 
     private static List<List<String>> getHistory(List<String[]> rawData, int limit, boolean isChest, @Nullable Block block) {
-        Logger logger = SherlockCore.getInstance().getLogger();
 
         if (rawData == null || rawData.isEmpty()) return new ArrayList<>();
         if (isChest && block == null) return new ArrayList<>();
@@ -78,6 +78,7 @@ public class CoreProtectLookups {
             if (cnt == limit) {
                 break;
             }
+            if (entry[11] == null) continue;
 
             CoreProtectAPI.ParseResult result = coreProtect.parseResult(entry);
 

@@ -6,6 +6,7 @@ import me.pashaVoid.sherlockCore.utils.ConfigUtils;
 import net.coreprotect.CoreProtectAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+
 import static me.pashaVoid.sherlockCore.CoreProtectLookups.getCoreProtectAPI;
 
 public final class SherlockCore extends JavaPlugin {

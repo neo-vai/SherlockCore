@@ -1,6 +1,7 @@
 package me.pashaVoid.sherlockCore.Listeners;
 
 import me.pashaVoid.sherlockCore.SherlockCore;
+import me.pashaVoid.sherlockCore.utils.DurabilityUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -19,7 +20,6 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import static me.pashaVoid.sherlockCore.CoreProtectLookups.*;
 import static me.pashaVoid.sherlockCore.Encrypt.calculatePercentagesList;
@@ -80,8 +80,10 @@ public class MagnifierListener implements Listener {
 
         Block block = targetBlock; // выбираем финальный блок
 
+        DurabilityUtils.damageItem(item, 10, player);
+
         Bukkit.getScheduler().runTaskAsynchronously(SherlockCore.getInstance(), () -> {
-            List<List<String>> history = new ArrayList<>();
+            List<List<String>> history;
             if (e.getAction() == Action.RIGHT_CLICK_BLOCK) history = getContainerHistory(block, nicks);
             else history = getBlockHistory(block, nicks);
 

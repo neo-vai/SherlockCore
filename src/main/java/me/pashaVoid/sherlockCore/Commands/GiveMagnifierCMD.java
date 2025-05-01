@@ -86,6 +86,11 @@ public class GiveMagnifierCMD implements TabExecutor {
                 show_thief = args[5].equalsIgnoreCase("on");
                 name = "Лупа Шерлока";
 
+                if (nicks < 1 || durability < 1) {
+                    sender.sendMessage("§cIncorrect argument!");
+                    return true;
+                }
+
             } catch (Exception e) {
                 sender.sendMessage("§cError in arguments!");
                 return true;
@@ -96,9 +101,8 @@ public class GiveMagnifierCMD implements TabExecutor {
                 .setName(name)
                 .setLore(Arrays.asList(
                         Component.text("§aЛКМ - увидеть историю блока"),
-                        Component.text("§aSHIFT + ЛКМ - увидеть историю блока выше"),
-                        Component.text("§aЛКМ - увидеть историю содержимого блока"),
-                        Component.text("§aЛКМ + ЛКМ - увидеть историю содержимого блока выше")))
+                        Component.text("§aПКМ - увидеть историю содержимого блока"),
+                        Component.text("§aИспользуй SHIFT чтобы увидеть историю блока выше")))
                 .addPersistent("magnifier", PersistentDataType.BOOLEAN, true)
                 .addPersistent("magnifier_nicks", PersistentDataType.INTEGER, nicks)
                 .addPersistent("magnifier_durability", PersistentDataType.INTEGER, durability)
@@ -108,7 +112,9 @@ public class GiveMagnifierCMD implements TabExecutor {
                 .build();
 
         item.setData(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelData.customModelData()
-                .addString("magnifier").build());
+                    .addString((show_time) ? "magnifier_time" : "magnifier").build());
+
+        item.setData(DataComponentTypes.MAX_DAMAGE, durability);
 
         getterPlayer.getInventory().addItem(item);
         sender.sendMessage("Успешно!");
