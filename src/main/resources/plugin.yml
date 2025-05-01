@@ -9,8 +9,5 @@ description: The plugin adds items for checking CoreProtect logs with different 
 website: VanillaXP.com
 
 commands:
-  checkhistory:
-    description: "Проверяет историю изменений блока"
-    usage: /checkhistory [лимит]
   givemagnifier:
     description: "Создает лупу"

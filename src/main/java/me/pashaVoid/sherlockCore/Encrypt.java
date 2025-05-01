@@ -1,12 +1,11 @@
-package me.pashaVoid.sherlockCore.utils;
+package me.pashaVoid.sherlockCore;
 
-import javax.annotation.Nullable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SecrecyUtil {
+public class Encrypt {
 
     public static String encryptNickname(String nickname, int encryptionPercent, int x, int y, int z) {
         if (nickname.isEmpty() || encryptionPercent <= 0) return nickname;
@@ -58,22 +57,24 @@ public class SecrecyUtil {
         return Long.parseUnsignedLong(hexPart, 16);
     }
 
-    public static List<Integer> calculatePercentagesList(int size) {
+    public static List<Integer> calculatePercentagesList(int size, int addChance) {
         List<Integer> percentages = new ArrayList<>();
+        double start = 5;
+        double end = 65;
 
         if (size == 0) return percentages;
 
-        percentages.add(15);
+        percentages.add((int) (start - addChance));
         if (size == 1) return percentages;
 
-        double step = (85.0 - 15.0) / (size - 1);
+        double step = (end - start) / (size - 1);
 
         for (int i = 1; i < size - 1; i++) {
             int percent = (int) Math.round(15 + i * step);
             percentages.add(percent);
         }
 
-        percentages.add(75);
+        percentages.add((int) (end - addChance));
 
         return percentages;
     }

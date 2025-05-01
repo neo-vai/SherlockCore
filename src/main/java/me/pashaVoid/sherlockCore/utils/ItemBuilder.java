@@ -1,5 +1,8 @@
 package me.pashaVoid.sherlockCore.utils;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -30,29 +33,13 @@ public class ItemBuilder {
     }
 
     public ItemBuilder setName(String name) {
-        itemMeta.setDisplayName(name);
+        itemMeta.displayName(Component.text(name));
 
         return this;
     }
 
-    public ItemBuilder setLore(List<String> lore) {
-        lore.replaceAll(ChatUtil::format);
-
-        itemMeta.setLore(lore);
-
-        return this;
-    }
-
-    public ItemBuilder setLore(List<String> lore, Map<String, String> args) {
-        for (int i = 0; i < lore.size(); i++) {
-            for (String key: args.keySet()) {
-                lore.set(i, lore.get(i).replace(key, args.get(key)));
-            }
-
-            lore.set(i,  ChatUtil.format(lore.get(i)));
-        }
-
-        itemMeta.setLore(lore);
+    public ItemBuilder setLore(List<Component> lore) {
+        itemMeta.lore(lore);
 
         return this;
     }
