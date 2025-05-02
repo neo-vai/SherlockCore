@@ -11,7 +11,6 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 
 import static me.pashaVoid.sherlockCore.SherlockCore.coreProtect;
 
@@ -78,7 +77,6 @@ public class CoreProtectLookups {
             if (cnt == limit) {
                 break;
             }
-            if (entry[11] == null) continue;
 
             CoreProtectAPI.ParseResult result = coreProtect.parseResult(entry);
 
@@ -91,20 +89,27 @@ public class CoreProtectLookups {
                     continue;
                 }
                 quantity = Integer.parseInt(entry[10]);
-                if (quantity == -1) {
-                    continue;
-                }
+            }
+
+            if (result.getType() == null) {
+                System.out.println("type");
+                continue;
+            }
+
+            if (quantity <= 0) {
+                System.out.println(Arrays.toString(entry));
+                continue;
             }
 
             int actionId = result.getActionId();
             String action;
+
             if (actionId == 2) {
                 continue;
             } else {
                 action = switch (actionId) {
                     case 0 -> "§c-";
                     case 1 -> "§a+";
-                    case 2 -> "§d*";
                     default -> "§8";
                 };
                 cnt += 1;
