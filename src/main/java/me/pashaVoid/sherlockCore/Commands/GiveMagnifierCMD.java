@@ -1,22 +1,16 @@
 package me.pashaVoid.sherlockCore.Commands;
 
-import io.papermc.paper.datacomponent.DataComponentTypes;
-import io.papermc.paper.datacomponent.item.CustomModelData;
+import me.pashaVoid.sherlockCore.ItemsUtils;
 import me.pashaVoid.sherlockCore.Magnifier;
-import me.pashaVoid.sherlockCore.utils.ItemBuilder;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class GiveMagnifierCMD implements TabExecutor {
@@ -97,26 +91,9 @@ public class GiveMagnifierCMD implements TabExecutor {
             }
         }
 
-        ItemStack item = new ItemBuilder(Material.BRUSH, 1)
-                .setName(name)
-                .setLore(Arrays.asList(
-                        Component.text("§aЛКМ - увидеть историю блока"),
-                        Component.text("§aПКМ - увидеть историю содержимого блока"),
-                        Component.text("§aИспользуй SHIFT чтобы увидеть историю блока выше")))
-                .addPersistent("magnifier", PersistentDataType.BOOLEAN, true)
-                .addPersistent("magnifier_nicks", PersistentDataType.INTEGER, nicks)
-                .addPersistent("magnifier_durability", PersistentDataType.INTEGER, durability)
-                .addPersistent("magnifier_show_time", PersistentDataType.BOOLEAN, show_time)
-                .addPersistent("magnifier_add_chances", PersistentDataType.INTEGER, add_chances)
-                .addPersistent("magnifier_show_thief", PersistentDataType.BOOLEAN, show_thief)
-                .build();
+        ItemStack magnifier = ItemsUtils.createMagnifier(name, nicks, durability, show_time, add_chances, show_thief);
 
-        item.setData(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelData.customModelData()
-                    .addString((show_time) ? "magnifier_time" : "magnifier").build());
-
-        item.setData(DataComponentTypes.MAX_DAMAGE, durability);
-
-        getterPlayer.getInventory().addItem(item);
+        getterPlayer.getInventory().addItem(magnifier);
         sender.sendMessage("Успешно!");
 
         return true;
