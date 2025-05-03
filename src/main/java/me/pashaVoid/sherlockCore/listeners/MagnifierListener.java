@@ -1,4 +1,4 @@
-package me.pashaVoid.sherlockCore.Listeners;
+package me.pashaVoid.sherlockCore.listeners;
 
 import me.pashaVoid.sherlockCore.CooldownManager;
 import me.pashaVoid.sherlockCore.SherlockCore;
@@ -145,6 +145,9 @@ public class MagnifierListener implements Listener {
                 answer.add(Component.text(messageString));
             }
             if (writePaper) {
+                if (answer.size() >= 50) {
+                    answer = answer.subList(0, 49);
+                }
                 answer.add(Component.text("§a©" + player.getName()));
                 player.sendMessage(MessagesConfig.history_written_to_paper);
                 if (itemInOffHand.getAmount() >= 1) {

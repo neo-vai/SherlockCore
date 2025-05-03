@@ -1,4 +1,4 @@
-package me.pashaVoid.sherlockCore.Listeners;
+package me.pashaVoid.sherlockCore.listeners;
 
 import me.pashaVoid.sherlockCore.config.MainConfig;
 import me.pashaVoid.sherlockCore.effects.CustomEffects;

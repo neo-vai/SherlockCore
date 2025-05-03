@@ -5,6 +5,7 @@ import net.coreprotect.CoreProtectAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import javax.annotation.Nullable;
@@ -156,7 +157,8 @@ public class CoreProtectLookups {
         String name = material.toString()
                 .toLowerCase()
                 .replace("_", " ");
-        return name.substring(0, 1).toUpperCase() + name.substring(1);
+        name = name.substring(0, 1).toUpperCase() + name.substring(1);
+        return new ItemStack(material).getI18NDisplayName();
     }
 
     public static List<Long> convertStringDataToLong(String input) {

@@ -1,8 +1,8 @@
 package me.pashaVoid.sherlockCore;
 
-import me.pashaVoid.sherlockCore.Commands.GiveMagnifierCMD;
-import me.pashaVoid.sherlockCore.Listeners.MagnifierListener;
-import me.pashaVoid.sherlockCore.Listeners.MagnifierUpgradeListener;
+import me.pashaVoid.sherlockCore.commands.GiveMagnifierCMD;
+import me.pashaVoid.sherlockCore.listeners.MagnifierListener;
+import me.pashaVoid.sherlockCore.listeners.MagnifierUpgradeListener;
 import me.pashaVoid.sherlockCore.config.ConfigUtils;
 import me.pashaVoid.sherlockCore.config.MainConfig;
 import me.pashaVoid.sherlockCore.config.MessagesConfig;

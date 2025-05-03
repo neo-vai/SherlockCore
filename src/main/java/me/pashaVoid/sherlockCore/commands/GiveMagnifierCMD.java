@@ -1,4 +1,4 @@
-package me.pashaVoid.sherlockCore.Commands;
+package me.pashaVoid.sherlockCore.commands;
 
 import me.pashaVoid.sherlockCore.config.MainConfig;
 import me.pashaVoid.sherlockCore.config.MessagesConfig;
