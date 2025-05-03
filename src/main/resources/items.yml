@@ -1,28 +1,28 @@
 items:
   COMMON:
-    name: "Обычная лупа"
+    name: "Default Magnifier" # "Обычная лупа"
     nicks: 10
     durability: 50
     add_chances: 0
     show_thief: false
 
   PROFESSIONAL:
-    name: "Профессиональная лупа"
-    nicks: 15
+    name: "Professional Magnifier" # "Профессиональная лупа"
+    nicks: 20
     durability: 75
     add_chances: 10
-    show_thief: true
+    show_thief: false
 
   SPECIAL:
-    name: "Лупа шерлока"
+    name: "Sherlock's Magnifier" # "Лупа шерлока"
     nicks: 30
     durability: 100
-    add_chances: 15
+    add_chances: 20
     show_thief: true
 
   UNIQUE:
-    name: "Уникальная Лупа"
+    name: "Unique Magnifier" # "Уникальная Лупа"
     nicks: 50
     durability: 150
-    add_chances: 20
+    add_chances: 30
     show_thief: true

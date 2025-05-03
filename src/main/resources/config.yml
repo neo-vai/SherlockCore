@@ -6,26 +6,35 @@ enable_paper_write: true
 
 enable_custom_model_data: true
 custom_model_data:
-  - "magnifier"       # default version
-  - "magnifier_time"  # time version
+  - "magnifier"       # default Magnifier version
+  - "magnifier_time"  # time Magnifier version
 
 enable_thief: true # WIP
 
-magnifier_cooldown: 1500
+magnifier_cooldown: 1500 # default - 1500
 
-prefix_time_magnifier: "&eClock "
+prefix_time_magnifier: ""
 
 lore_default_magnifier:
-  - "&aЛКМ - увидеть историю блока"
-  - "&aПКМ - увидеть историю содержимого блока"
-  - "&aИспользуй SHIFT чтобы увидеть историю блока выше"
+  - "&aLMB - view the block history"
+  - "&aRMB - view the block content history"
+  - "&aUse SHIFT to see the block history above"
 lore_time_magnifier:
-  - "&aЛКМ - увидеть историю блока"
-  - "&aПКМ - увидеть историю содержимого блока"
-  - "&aИспользуй SHIFT чтобы увидеть историю блока выше"
+  - "&aLMB - view the block history"
+  - "&aRMB - view the block content history"
+  - "&aUse SHIFT to see the block history above"
   - "&eClock version"
 
-name_custom_magnifier: "Custom magnifier"
+#lore_default_magnifier:
+#  - "&aЛКМ - увидеть историю блока"
+#  - "&aПКМ - увидеть историю содержимого блока"
+#  - "&aИспользуй SHIFT чтобы увидеть историю блока выше"
+#lore_time_magnifier:
+#  - "&aЛКМ - увидеть историю блока"
+#  - "&aПКМ - увидеть историю содержимого блока"
+#  - "&aИспользуй SHIFT чтобы увидеть историю блока выше"
+
+name_custom_magnifier: "Custom magnifier" # "Кастомная лупа"
 
 disable_sounds: false
 disable_particles: false
