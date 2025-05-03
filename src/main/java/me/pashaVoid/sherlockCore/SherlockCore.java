@@ -2,7 +2,10 @@ package me.pashaVoid.sherlockCore;
 
 import me.pashaVoid.sherlockCore.Commands.GiveMagnifierCMD;
 import me.pashaVoid.sherlockCore.Listeners.MagnifierListener;
-import me.pashaVoid.sherlockCore.utils.ConfigUtils;
+import me.pashaVoid.sherlockCore.Listeners.MagnifierUpgradeListener;
+import me.pashaVoid.sherlockCore.config.ConfigUtils;
+import me.pashaVoid.sherlockCore.config.MainConfig;
+import me.pashaVoid.sherlockCore.config.MessagesConfig;
 import net.coreprotect.CoreProtectAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,7 +16,10 @@ public final class SherlockCore extends JavaPlugin {
 
     private static SherlockCore instance;
     public static CoreProtectAPI coreProtect;
+    private static CooldownManager cooldownManager;
+
     public static SherlockCore getInstance() {return instance;}
+    public static CooldownManager getCooldownManager() {return cooldownManager;}
 
     public ConfigUtils configUtils;
 
@@ -24,25 +30,29 @@ public final class SherlockCore extends JavaPlugin {
         CoreProtectAPI cp = getCoreProtectAPI();
         configUtils = new ConfigUtils(this);
 
-        saveDefaultConfig();
-
-        configUtils.createOrLoadConfig("config");
-        configUtils.createOrLoadConfig("messages");
+        MainConfig.loadMainConfig(configUtils.createOrLoadConfig("config"));
+        MessagesConfig.loadMessagesConfig(configUtils.createOrLoadConfig("messages"));
         configUtils.loadItemsConfig(configUtils.createOrLoadConfig("items"));
 
+        saveDefaultConfig();
+
         if (cp == null) {
-            getLogger().severe("CoreProtect не найден! Плагин отключен.");
+            getLogger().severe("CoreProtect was not found! The plugin is disabled.");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
+
+        CooldownManager cooldown =  new CooldownManager(MainConfig.magnifier_cooldown);
+        cooldown.startCleanupTask(this);
+        cooldownManager = cooldown;
+
         coreProtect = cp;
-        getLogger().info("CoreProtect API подключен успешно! Версия: " + cp.APIVersion());
+        getLogger().info("The CoreProtect API has been successfully enabled! Version:" + cp.APIVersion());
 
         getCommand("givemagnifier").setExecutor(new GiveMagnifierCMD());
+
         getServer().getPluginManager().registerEvents(new MagnifierListener(), this);
-
-
-
+        getServer().getPluginManager().registerEvents(new MagnifierUpgradeListener(), this);
     }
 
     @Override

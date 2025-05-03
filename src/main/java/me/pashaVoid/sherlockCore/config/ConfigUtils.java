@@ -1,4 +1,4 @@
-package me.pashaVoid.sherlockCore.utils;
+package me.pashaVoid.sherlockCore.config;
 
 import me.pashaVoid.sherlockCore.Magnifier;
 import me.pashaVoid.sherlockCore.SherlockCore;
@@ -41,14 +41,14 @@ public class ConfigUtils {
                 } else {
                     configFile.getParentFile().mkdirs();
                     if (!configFile.createNewFile()) {
-                        plugin.getLogger().severe("Не удалось создать " + name + ".yml");
+                        plugin.getLogger().severe("Failed to create " + name + ".yml");
                         return null;
                     }
                 }
                 isNewFile = true;
             }
         } catch (IOException e) {
-            plugin.getLogger().severe("Ошибка при создании " + name + ".yml: " + e.getMessage());
+            plugin.getLogger().severe("Error when creating " + name + ".yml: " + e.getMessage());
             return null;
         }
 
@@ -77,7 +77,7 @@ public class ConfigUtils {
                 }
             }
         } catch (IOException e) {
-            plugin.getLogger().severe("Ошибка при загрузке дефолтного конфига " + name + ": " + e.getMessage());
+            plugin.getLogger().severe("Error loading the default configuration" + name + ": " + e.getMessage());
         }
 
         configs.put(name, config);
@@ -104,7 +104,7 @@ public class ConfigUtils {
                 logger.severe("Syntax in items.yml!");
                 return;
             }
-            String name = item.getString("name", "Magnifier");
+            String name = "§f" + item.getString("name", "Magnifier");
             int nicks = item.getInt("nicks", 0);
             int durability = item.getInt("durability", 1);
             int add_chances = item.getInt("add_chances", 0);

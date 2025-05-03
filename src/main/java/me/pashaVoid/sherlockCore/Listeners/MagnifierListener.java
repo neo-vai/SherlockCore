@@ -1,9 +1,14 @@
 package me.pashaVoid.sherlockCore.Listeners;
 
+import me.pashaVoid.sherlockCore.CooldownManager;
 import me.pashaVoid.sherlockCore.SherlockCore;
+import me.pashaVoid.sherlockCore.config.MainConfig;
+import me.pashaVoid.sherlockCore.config.MessagesConfig;
+import me.pashaVoid.sherlockCore.effects.CustomEffects;
 import me.pashaVoid.sherlockCore.utils.DurabilityUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -41,12 +46,34 @@ public class MagnifierListener implements Listener {
             return;
         }
 
+        Action action = e.getAction();
+        if (!(e.getAction() == Action.LEFT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_BLOCK)) {
+            return;
+        }
+        if (e.getClickedBlock() == null) {
+            return;
+        }
+
+        Player player = e.getPlayer();
+
+        CooldownManager cooldownManager = SherlockCore.getCooldownManager();
+        if (!MainConfig.enable_magnifier) {
+            e.setCancelled(true);
+            return;
+        }
+        if (!cooldownManager.isReady(player.getUniqueId())) {
+            e.setCancelled(true);
+            return;
+        } else {
+            cooldownManager.applyCooldown(player.getUniqueId());
+        }
+
         ItemStack itemInOffHand = e.getPlayer().getInventory().getItemInOffHand();
 
         boolean writePaper;
         ItemMeta metaOffHand = itemInOffHand.getItemMeta();
 
-        if (itemInOffHand.getType() == Material.PAPER && metaOffHand!= null) {
+        if (MainConfig.enable_paper_write && itemInOffHand.getType() == Material.PAPER && metaOffHand!= null) {
             if (metaOffHand.getPersistentDataContainer().isEmpty() && !metaOffHand.hasLore()) {
                 writePaper = true;
             } else {
@@ -57,21 +84,12 @@ public class MagnifierListener implements Listener {
         }
 
         e.setCancelled(true);
-
-        if (e.getAction() != Action.LEFT_CLICK_BLOCK && e.getAction() != Action.RIGHT_CLICK_BLOCK) {
-            return;
-        }
-        if (e.getClickedBlock() == null) {
-            return;
-        }
         PersistentDataContainer container = e.getItem().getItemMeta().getPersistentDataContainer();
         int nicks = container.get(NamespacedKey.minecraft("magnifier_nicks"), PersistentDataType.INTEGER);
         int durability = container.get(NamespacedKey.minecraft("magnifier_durability"), PersistentDataType.INTEGER);
         boolean show_time = container.get(NamespacedKey.minecraft("magnifier_show_time"), PersistentDataType.BOOLEAN);
         int add_chances = container.get(NamespacedKey.minecraft("magnifier_add_chances"), PersistentDataType.INTEGER);
         boolean show_thief = container.get(NamespacedKey.minecraft("magnifier_show_thief"), PersistentDataType.BOOLEAN);
-
-        Player player = e.getPlayer();
 
         Block targetBlock = e.getClickedBlock(); // блок на который тыкнул
         if (player.isSneaking()) {
@@ -80,18 +98,26 @@ public class MagnifierListener implements Listener {
 
         Block block = targetBlock; // выбираем финальный блок
 
-        DurabilityUtils.damageItem(item, 10, player);
+        Location center = block.getLocation().add(0.5, 1, 0.5);
+
+        DurabilityUtils.damageItem(item, 1, player, e.getHand());
 
         Bukkit.getScheduler().runTaskAsynchronously(SherlockCore.getInstance(), () -> {
             List<List<String>> history;
-            if (e.getAction() == Action.RIGHT_CLICK_BLOCK) history = getContainerHistory(block, nicks);
-            else history = getBlockHistory(block, nicks);
+            if (action == Action.RIGHT_CLICK_BLOCK) {
+                history = getContainerHistory(block, nicks);
+                CustomEffects.successfulMagnifierRight(player, center);
+            }
+            else {
+                history = getBlockHistory(block, nicks);
+                CustomEffects.successfulMagnifierLeft(player, center);
+            }
 
 
             List<Integer> chanceList = calculatePercentagesList(nicks, add_chances);
 
             if (history.isEmpty()) {
-                player.sendMessage("§aУ этого блока нет истории изменений.");
+                player.sendMessage(MessagesConfig.no_history);
                 return;
             }
 
@@ -119,15 +145,15 @@ public class MagnifierListener implements Listener {
                 answer.add(Component.text(messageString));
             }
             if (writePaper) {
-                answer.add(Component.text("§a------ ©" + player.getName() + " ------"));
-                player.sendMessage("§6Результаты записаны на бумагу:");
+                answer.add(Component.text("§a©" + player.getName()));
+                player.sendMessage(MessagesConfig.history_written_to_paper);
                 if (itemInOffHand.getAmount() >= 1) {
                     addOneItemInOffHand(itemInOffHand, player, answer);
                 } else {
                     itemInOffHand.lore(answer);
                 }
             } else {
-                player.sendMessage("§6Вот что удалось разглядеть:");
+                player.sendMessage(MessagesConfig.block_history_preview);
                 for (Component component : answer) {
                     player.sendMessage(component);
                 }

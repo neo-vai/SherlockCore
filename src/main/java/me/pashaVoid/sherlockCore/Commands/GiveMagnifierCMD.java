@@ -1,6 +1,8 @@
 package me.pashaVoid.sherlockCore.Commands;
 
-import me.pashaVoid.sherlockCore.ItemsUtils;
+import me.pashaVoid.sherlockCore.config.MainConfig;
+import me.pashaVoid.sherlockCore.config.MessagesConfig;
+import me.pashaVoid.sherlockCore.utils.MagnifierItemUtils;
 import me.pashaVoid.sherlockCore.Magnifier;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -18,7 +20,7 @@ public class GiveMagnifierCMD implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (args.length < 3) {
-            sender.sendMessage("§cNot enough arguments!");
+            sender.sendMessage(MessagesConfig.not_enough_arguments);
             return true;
         }
 
@@ -29,7 +31,7 @@ public class GiveMagnifierCMD implements TabExecutor {
         } else if (args[0].equals("custom")) {
             pattern = false;
         } else {
-            sender.sendMessage("§cChoose \"custom\" or \"pattern\"");
+            sender.sendMessage(MessagesConfig.choose);
             return true;
         }
 
@@ -38,14 +40,14 @@ public class GiveMagnifierCMD implements TabExecutor {
         if (pattern && args.length >= 4) {
             getterPlayer = Bukkit.getPlayer(args[3]);
             if ((!args[2].equalsIgnoreCase("on") && !args[2].equalsIgnoreCase("off")) && getterPlayer == null) {
-                sender.sendMessage("§cError in the command with the Pattern");
+                sender.sendMessage(MessagesConfig.pattern_syntax_error);
                 return true;
             }
-        } else if (!pattern && args.length >= 8) {
+        } else if (!pattern && args.length >= 7) {
             getterPlayer = Bukkit.getPlayer(args[6]);
         }
         if (getterPlayer == null) {
-            sender.sendMessage("§cThere is no one to give the item to :(");
+            sender.sendMessage(MessagesConfig.no_to_give);
             return true;
         }
 
@@ -54,13 +56,13 @@ public class GiveMagnifierCMD implements TabExecutor {
         boolean show_time;
         int add_chances;
         boolean show_thief;
-        String name = "Magnifier";
+        String name;
 
         if (pattern) {
 
             String patternName = args[1].toUpperCase();
             if (!Magnifier.keys.contains(patternName)) {
-                sender.sendMessage("§cThe pattern was not found! :(");
+                sender.sendMessage(MessagesConfig.pattern_not_found);
                 return true;
             }
             Magnifier magnifier = Magnifier.patterns.get(patternName);
@@ -69,7 +71,7 @@ public class GiveMagnifierCMD implements TabExecutor {
             show_time = args[2].equalsIgnoreCase("on");
             add_chances = magnifier.getAdd_chances();
             show_thief = magnifier.isShow_thief();
-            name = magnifier.getName();
+            name = (show_time) ? MainConfig.prefix_time_magnifier + magnifier.getName() : magnifier.getName();
 
         } else {
             try {
@@ -78,23 +80,23 @@ public class GiveMagnifierCMD implements TabExecutor {
                 show_time = args[3].equalsIgnoreCase("on");
                 add_chances = Integer.parseInt(args[4]);
                 show_thief = args[5].equalsIgnoreCase("on");
-                name = "Лупа Шерлока";
+                name = (show_time) ? MainConfig.prefix_time_magnifier + MainConfig.name_custom_magnifier : MainConfig.name_custom_magnifier;
 
                 if (nicks < 1 || durability < 1) {
-                    sender.sendMessage("§cIncorrect argument!");
+                    sender.sendMessage(MessagesConfig.arguments_invalid);
                     return true;
                 }
 
             } catch (Exception e) {
-                sender.sendMessage("§cError in arguments!");
+                sender.sendMessage(MessagesConfig.arguments_error);
                 return true;
             }
         }
 
-        ItemStack magnifier = ItemsUtils.createMagnifier(name, nicks, durability, show_time, add_chances, show_thief);
+        ItemStack magnifier = MagnifierItemUtils.createMagnifier(name, nicks, durability, show_time, add_chances, show_thief);
 
         getterPlayer.getInventory().addItem(magnifier);
-        sender.sendMessage("Успешно!");
+        sender.sendMessage(MessagesConfig.successfully);
 
         return true;
     }

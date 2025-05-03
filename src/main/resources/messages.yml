@@ -1,1 +1,12 @@
-test: "tested message"
+no_history: "§aThere is no revision history for this block."
+history_written_to_paper: "§6The results are written down on paper:"
+block_history_preview: "§6Here's what we managed to see:"
+
+not_enough_arguments: "§cNot enough arguments"
+choose: "§cChoose custom or pattern"
+pattern_syntax_error: "§cError in the command with the Pattern"
+no_to_give: "§cThere is no one to give the item to :("
+pattern_not_found: "§cThe pattern was not found! :("
+arguments_invalid: "§cIncorrect argument!"
+arguments_error: "§cError in arguments!"
+successfully: "§aSuccessfully!"

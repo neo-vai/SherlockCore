@@ -1,1 +1,31 @@
 enable_magnifier: true
+
+enable_magnifier_upgrade: true
+
+enable_paper_write: true
+
+enable_custom_model_data: true
+custom_model_data:
+  - "magnifier"       # default version
+  - "magnifier_time"  # time version
+
+enable_thief: true # WIP
+
+magnifier_cooldown: 1500
+
+prefix_time_magnifier: "&eClock "
+
+lore_default_magnifier:
+  - "&aЛКМ - увидеть историю блока"
+  - "&aПКМ - увидеть историю содержимого блока"
+  - "&aИспользуй SHIFT чтобы увидеть историю блока выше"
+lore_time_magnifier:
+  - "&aЛКМ - увидеть историю блока"
+  - "&aПКМ - увидеть историю содержимого блока"
+  - "&aИспользуй SHIFT чтобы увидеть историю блока выше"
+  - "&eClock version"
+
+name_custom_magnifier: "Custom magnifier"
+
+disable_sounds: false
+disable_particles: false

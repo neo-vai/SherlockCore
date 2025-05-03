@@ -1,16 +1,18 @@
 package me.pashaVoid.sherlockCore.utils;
 
-import io.papermc.paper.datacomponent.DataComponentType;
 import io.papermc.paper.datacomponent.DataComponentTypes;
-import org.bukkit.*;
+import me.pashaVoid.sherlockCore.effects.CustomEffects;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class DurabilityUtils {
 
-    public static void damageItem(ItemStack item, int damage, Player player) {
+    public static void damageItem(ItemStack item, int damage, Player player, EquipmentSlot slot) {
 
         if (player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR) {
             return;
@@ -32,29 +34,15 @@ public class DurabilityUtils {
         int damageValue = item.getData(DataComponentTypes.DAMAGE);
         damageValue += damage;
         if (damageValue >= max_damage) {
-            breakItem(item, player);
+            breakItem(item, player, slot);
             return;
         }
         item.setData(DataComponentTypes.DAMAGE, damageValue);
     }
 
-    private static void breakItem(ItemStack item, Player player) {
-        player.getInventory().remove(item);
-        player.playEffect(EntityEffect.BREAK_EQUIPMENT_MAIN_HAND);
-        player.spawnParticle(
-                Particle.ITEM, // Тип частиц
-                player.getLocation().add(0, 1, 0), // Позиция
-                10,
-                0.3, 0.3, 0.3,
-                0.1,
-                item
-        );
-        player.playSound(
-                player.getLocation(),
-                Sound.ENTITY_ITEM_BREAK,
-                1.0f,
-                1.0f
-        );
+    private static void breakItem(ItemStack item, Player player, EquipmentSlot slot) {
+        player.getInventory().setItem(slot, new ItemStack(Material.AIR));
+        CustomEffects.breakItem(item, player);
     }
 
 }

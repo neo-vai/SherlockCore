@@ -10,4 +10,4 @@ website: VanillaXP.com
 
 commands:
   givemagnifier:
-    description: "Создает лупу"
+    description: "Create magnifier"

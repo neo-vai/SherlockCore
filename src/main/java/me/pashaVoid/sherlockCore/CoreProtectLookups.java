@@ -9,7 +9,6 @@ import org.bukkit.plugin.Plugin;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static me.pashaVoid.sherlockCore.SherlockCore.coreProtect;
@@ -91,13 +90,15 @@ public class CoreProtectLookups {
                 quantity = Integer.parseInt(entry[10]);
             }
 
-            if (result.getType() == null) {
-                System.out.println("type");
+            try {
+                if (result.getType() == null) {
+                    continue;
+                }
+            } catch (Exception e) {
                 continue;
             }
 
             if (quantity <= 0) {
-                System.out.println(Arrays.toString(entry));
                 continue;
             }
 
@@ -128,7 +129,7 @@ public class CoreProtectLookups {
             String timeAgo = formatTimeAgo(diffSeconds);
             entryData.add(timeAgo);
 
-            entryData.add((isChest) ? (action + " " + quantity + " " + formatBlockName(result.getType())) : (action + formatBlockName(result.getType())));
+            entryData.add((isChest) ? (action + " " + quantity + " " + formatBlockName(result.getType())) : (action + " " + formatBlockName(result.getType())));
 
 
             history.add(entryData);
@@ -150,7 +151,7 @@ public class CoreProtectLookups {
     }
 
     private static String formatBlockName(Material material) {
-        if (material == null) return "неизвестный блок";
+        if (material == null) return "?block?";
 
         String name = material.toString()
                 .toLowerCase()

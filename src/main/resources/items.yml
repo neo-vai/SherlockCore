@@ -2,27 +2,27 @@ items:
   COMMON:
     name: "Обычная лупа"
     nicks: 10
-    durability: 500
+    durability: 50
     add_chances: 0
     show_thief: false
 
   PROFESSIONAL:
     name: "Профессиональная лупа"
     nicks: 15
-    durability: 750
+    durability: 75
     add_chances: 10
     show_thief: true
 
   SPECIAL:
     name: "Лупа шерлока"
     nicks: 30
-    durability: 1000
+    durability: 100
     add_chances: 15
     show_thief: true
 
   UNIQUE:
     name: "Уникальная Лупа"
     nicks: 50
-    durability: 1500
+    durability: 150
     add_chances: 20
     show_thief: true
