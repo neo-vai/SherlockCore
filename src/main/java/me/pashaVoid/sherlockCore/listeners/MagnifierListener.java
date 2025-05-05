@@ -6,7 +6,9 @@ import me.pashaVoid.sherlockCore.config.MainConfig;
 import me.pashaVoid.sherlockCore.config.MessagesConfig;
 import me.pashaVoid.sherlockCore.effects.CustomEffects;
 import me.pashaVoid.sherlockCore.utils.DurabilityUtils;
+import net.kyori.adventure.inventory.Book;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -30,6 +32,7 @@ import static me.pashaVoid.sherlockCore.CoreProtectLookups.*;
 import static me.pashaVoid.sherlockCore.Encrypt.calculatePercentagesList;
 import static me.pashaVoid.sherlockCore.Encrypt.encryptNickname;
 import static me.pashaVoid.sherlockCore.utils.InventoryUtils.addOneItemInOffHand;
+import static net.kyori.adventure.text.Component.text;
 
 public class MagnifierListener implements Listener {
 
@@ -131,7 +134,7 @@ public class MagnifierListener implements Listener {
                 String nick = encryptNickname(entry.get(0), chance, block.getX(), block.getY(), block.getZ());
                 cnt += 1;
 
-                String messageString = "§7" + cnt + "§f " + nick + " " + entry.get(2);
+                String messageString = "§7" + cnt + "§5 " + nick + " " + entry.get(2);
                 if (time_cnt > 0) {
                     List<Long> date = convertStringDataToLong(entry.get(1));
 
@@ -142,13 +145,13 @@ public class MagnifierListener implements Listener {
                     messageString += " §8(" + strDate + ")";
                     time_cnt -= 1;
                 }
-                answer.add(Component.text(messageString));
+                answer.add(text(messageString));
             }
             if (writePaper) {
                 if (answer.size() >= 50) {
                     answer = answer.subList(0, 49);
                 }
-                answer.add(Component.text("§a©" + player.getName()));
+                answer.add(text("§a©" + player.getName()));
                 player.sendMessage(MessagesConfig.history_written_to_paper);
                 if (itemInOffHand.getAmount() >= 1) {
                     addOneItemInOffHand(itemInOffHand, player, answer);
@@ -156,11 +159,36 @@ public class MagnifierListener implements Listener {
                     itemInOffHand.lore(answer);
                 }
             } else {
-                player.sendMessage(MessagesConfig.block_history_preview);
+                Book.Builder book_builder = Book.builder();
+
+                book_builder.title(text("Title"));
+                book_builder.author(text("Author"));
+
+                int book_cnt = 1;
+                StringBuilder text_page = new StringBuilder((MessagesConfig.block_history_preview == null || MessagesConfig.block_history_preview.equalsIgnoreCase("")) ? "" :  MessagesConfig.block_history_preview + "\n" );
+                List<Component> pages = new ArrayList<>();
                 for (Component component : answer) {
-                    player.sendMessage(component);
+                    String serialized =  LegacyComponentSerializer.legacySection().serialize(component) + "\n";
+                    if (book_cnt > 5) {
+                        pages.add(Component.text(text_page.toString()));
+                        text_page = new StringBuilder(serialized);
+                        book_cnt = 1;
+                    } else {
+                        text_page.append(serialized);
+                        book_cnt++;
+                    }
                 }
+                if (pages.isEmpty()) {
+                    pages.add(Component.text(text_page.toString()));
+                }
+                for (Component component : pages) {
+                    book_builder.addPage(component);
+                }
+
+                Book book = book_builder.build();
+                player.openBook(book);
             }
+
         });
     }
 }

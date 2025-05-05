@@ -4,6 +4,10 @@ import me.pashaVoid.sherlockCore.config.MainConfig;
 import me.pashaVoid.sherlockCore.config.MessagesConfig;
 import me.pashaVoid.sherlockCore.utils.MagnifierItemUtils;
 import me.pashaVoid.sherlockCore.Magnifier;
+import net.kyori.adventure.inventory.Book;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -96,8 +100,6 @@ public class GiveMagnifierCMD implements TabExecutor {
         ItemStack magnifier = MagnifierItemUtils.createMagnifier(name, nicks, durability, show_time, add_chances, show_thief);
 
         getterPlayer.getInventory().addItem(magnifier);
-        sender.sendMessage(MessagesConfig.successfully);
-
         return true;
     }
 
